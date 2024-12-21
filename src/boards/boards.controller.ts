@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Logger,
   Param,
   ParseIntPipe,
@@ -20,7 +22,9 @@ import { Board } from './board.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('boards')
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
@@ -30,6 +34,11 @@ export class BoardsController {
 
   @Post('/')
   @UsePipes(ValidationPipe)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: '게시판 등록하기',
+    description: '게시판 등록하기ㅎㅎ'
+  })
   createBoard(
     @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
